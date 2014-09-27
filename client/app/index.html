@@ -1,0 +1,143 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <title>Privfile - Send files that will self-destruct after being retrieved</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Share a confidential files via a web link that will self-destruct after it is downloaded by your intended recipient." />
+
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/privfiles.css">
+    <!-- <link rel="stylesheet" href="styles/main.css"> -->
+    <!-- endbuild -->
+  </head>
+  <body ng-app="privfilesApp">
+    <div id="outertop">
+        <div id="top">
+            <h1><a href="/"><img src="images/logo.png" alt="PrivFiles" width="300" height="76"></a></h1>
+            <h2>Send files that will self-destruct after being downloaded</h2>
+            <ul id="menu">
+                <li><a href="/about/">About</a></li>
+                <li><a href="/faq/">FAQ </a></li>
+                <li class="last"><a href="/contact/">Contact</a></li>
+            </ul>
+            <div id="tooltip"><span>(*)</span> This page is only available in English</div>
+        </div>
+    </div>
+    <div id="outerinstructions">
+        <div id="instructions">
+            <noscript>
+                &lt;div id="javascript-enabled"&gt;
+                &lt;p&gt;You must have Javascript enabled to use Privfile.&lt;/p&gt;
+                &lt;/div&gt;
+            </noscript>
+            <div id="outerinstructionslink" class="hidden">
+                <h3><a id="instructionslink" href="#">How does it work?</a></h3>
+            </div>
+            <div>
+                <div id-"instructionstext">
+                    <ol>
+                        <li class="step1"><span>Upload a file and get a link</span></li>
+                        <li class="step2"><span>Copy the link and send it to whom you want to download the file</span></li>
+                        <li class="step3"><span>The file will self-destruct after being downloaded</span></li>
+                    </ol>
+                    <br style="clear: both">
+
+                    <a href="/about/"><strong>Learn more</strong></a>
+                </div>
+            </div>
+        </div>
+        <div id="outerupload" ng-controller="MainCtrl">
+            <div ng-show="!uploadResult">
+                <h3>Drag your file to the section below</h3>
+                <div class="drop-box" ng-file-drop="onFileSelect($files)"
+                                      ng-file-drag-over-class="optional-css-class-name-or-function"
+                                      ng-show="dropSupported">
+                    drop files here
+                </div>
+                <div ng-file-drop-available="dropSupported=true"
+                     ng-show="!dropSupported">HTML5 Drop File is not supported!
+                </div>
+                <input type="file" ng-file-select="onFileSelect($files)">
+                <div class="button" ng-file-select="onFileSelect($files)" data-multiple="false"></div>
+
+                <!-- progress stuff -->
+                <div ng-show="selectedFiles">
+                    <br/>
+                    <button ng-click="upload.abort()">Cancel Upload</button>
+                    <br/>Progress:
+                    <div class="sel-file" ng-repeat="f in selectedFiles">
+                        {{($index + 1) + '.'}}
+                        <img ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+                        <span class="progress" ng-show="progress[$index] >= 0">
+                            <div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
+                        </span>
+                        {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+                    </div>
+                </div>
+            </div>
+            <div id="uploadresult" style="display: block;" data-ng-show="uploadResult.url">
+                <h3>
+                    Copy this link and paste it into an email or instant message and send it to whom you want to download the file, or
+                    <a id="destroylink" href="{{uploadResult.url}}">destroy it now</a>
+                </h3>
+                <p>
+                    <input type="text" id="downloadlink" value="{{uploadResult.url}}" size="50" readonly="readonly" />
+                </p>
+                <h3 id="createanother">
+                    <a href="/">Create another private file</a>
+                </h3>
+           </div>
+           <div id="footer">
+                © 2014 <a href="http://privfiles.com">privfiles</a> - <a href="/privacy/">Privacy Policy</a>
+           </div>
+        </div>
+    </div>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

@@ -1,0 +1,244 @@
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.clear {
+    clear: both;
+}
+
+#outertop {
+    padding: 0;
+}
+
+#top {
+    margin: 0 auto;
+    width: 760px;
+    position: relative;
+    color: #fff;
+}
+
+#outerinstructions {
+    width: 760px;
+    margin: 0 auto;
+}
+
+#content {
+    width: 700px;
+    margin: 0px;
+    clear: both;
+    text-align: left;
+}
+
+.highlight {
+    padding: .4em;
+    background: #ffa;
+}
+
+#outerupload h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+#outerupload h3#title {
+    margin-top: 10px;
+}
+
+#footer {
+    clear: both;
+    text-align: center;
+    color: #999;
+    font-size: .85em;
+    margin: 20px 0 5px;
+}
+
+#response {
+    display: none;
+    clear: both;
+    margin: 20px 0 40px 0;
+}
+
+#downloadlink {
+    width: 690px;
+    font-size: 1.5em;
+    background: #ffface;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+#createanother {
+    text-align: center;
+}
+
+#outerinstructions, #instructions {
+    width: 760px;
+}
+
+#outertop {
+    height: 106px;
+    margin: 0 0 5px;
+}
+
+#top h1 {
+    float: left;
+    width: 226px;
+    text-align: left;
+    margin-left: -8px;
+}
+
+#top h2 {
+    position: absolute;
+    top: 76px;
+    left: 0;
+}
+
+#top #menu {
+    float: right;
+    margin: 10px 0 0 0;
+    font-size: .9em;
+    text-align: right;
+    color: #ffbaaa;
+    list-style: none;
+    line-height: 1.5em;
+}
+
+#top #menu li {
+    float: left;
+    border-right: 1px solid #ffa8a8;
+    padding: 0 7px 0 7px;
+}
+
+#top #menu li.last {
+    border-right: none;
+}
+
+#top #menu li a {
+    color: #fff;
+}
+
+#top #menu li span {
+    font-size: .8em;
+}
+
+#top #tooltip {
+    position: absolute;
+    font-size: 10px;
+    right: 6px;
+    top: 40px;
+    color: #F99;
+}
+
+#instructions li {
+    width: 168px;
+    height: 93px;
+    padding-left: 85px;
+    float: left;
+    list-style-type: none;
+    text-align: left;
+}
+
+#instructions li span {
+    position: relative;
+    top: 10px;
+    left: 5px;
+    font: bold 1.25em Arial, sans-serif;
+    color: #545454;
+}
+
+#instructions li.step1 {
+    padding-left: 65px;
+    width: 188px;
+    background: url(../images/upload.png) no-repeat;
+}
+
+#instructions li.step2 {
+    width: 169px;
+    background: url(../images/share.png) no-repeat;
+}
+
+#instructions .step3 {
+    background: url(../images/destroy.png) no-repeat;
+}
+
+button {
+    width: auto;
+    overflow: visible;
+}
+
+#button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #fff;
+    font: bold 1.25em Arial, Verdana, sans-serif;
+}
+
+.button {
+    display: block;
+    line-height: 37px;
+    padding-right: 14px;
+}
+
+.button span {
+    display: block;
+    line-height: 37px;
+    padding-left: 14px;
+}
+
+#uploadresult {
+    clear: both;
+    display: none;
+}
+
+#javascript-enabled p {
+    padding: .5em;
+    background: #ffc;
+    border: 1px solid #c30;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #c00;
+}
+
+.sel-file {
+    padding: 1px 5px;
+    font-size: smaller;
+    color: grey;
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+
+.drop-box {
+    background: #ffface;
+    border: 5px dashed #DDD;
+    width: 740px;
+    height: 221px;
+    text-align: center;
+    padding-top: 35px;
+}
+
+.drop-box.dragover {
+    border: 5px dashed blue;
+}
+
+.drop-box.dragover-err {
+    border: 5px dashed red;
+}
