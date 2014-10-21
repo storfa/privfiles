@@ -1,9 +1,14 @@
 package model
 
 type FileIdentifier struct {
-	Key         []byte
-	Path        string
 	Checksum    string
 	FileName    string
+	StoredName  string
 	ContentType string
+}
+
+type FileIdentifierGroup struct {
+	Key       []byte
+	GroupPath string
+	FileIds   []FileIdentifier
 }

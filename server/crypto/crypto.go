@@ -65,7 +65,7 @@ func ComputeChecksum(filePath string) string {
 	return (base64.URLEncoding.EncodeToString(hasher.Sum(nil)))
 }
 
-func EncryptMultipartReader(mr *multipart.Reader, length int64, key []byte) (fileId model.FileIdentifier, err error) {
+func EncryptMultipartReader(mr *multipart.Reader, length int64, key []byte) (fileIdGroup model.FileIdentifierGroup, err error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return
@@ -81,34 +81,51 @@ func EncryptMultipartReader(mr *multipart.Reader, length int64, key []byte) (fil
 	var tmpcontentType string
 
 	// need a place to store the uploaded file
-	fileId.Path = "/tmp/uploaded/" + base64.URLEncoding.EncodeToString(GenerateKey(8))
-	outFile, err := os.OpenFile(fileId.Path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
-	if err != nil {
-		return
-	}
-	defer outFile.Close()
+	fileIdGroup.Key = key
+	fileIdGroup.FileIds = make([]model.FileIdentifier, 10)
+	fileIdGroup.GroupPath = "/tmp/uploaded/" + base64.URLEncoding.EncodeToString(GenerateKey(8))
 
-	// Copy the input file to the output file, encrypting as we go.
-	encryptor := &cipher.StreamWriter{S: stream, W: outFile}
-	defer encryptor.Close()
-
-	compressor, err := gzip.NewWriterLevel(encryptor, 1)
-	if err != nil {
-		return
-	}
-	defer compressor.Close()
-
-	for {
-		part, err := mr.NextPart()
-		if err == io.EOF {
+	for i := 0; true; i++ {
+		part, e := mr.NextPart()
+		if e == io.EOF {
+			err = e
 			break
 		}
 
-		tmpcontentType = part.Header.Get("Content-Type")
+		// ****************************************
+		// * TODO: extract this functionality
+		// ****************************************
+
+		// setup output file
+		fileId := fileIdGroup.FileIds[i]
+		fileId.StoredName = base64.URLEncoding.EncodeToString(GenerateKey(4))
+		fileId.ContentType = part.Header.Get("Content-Type")
+
+		// determine the file name
 		dispositionHeader := part.Header.Get("Content-Disposition")
 		re := regexp.MustCompile("(filename=\")(.*)(\")")
 		fileNameSlices := re.FindStringSubmatch(dispositionHeader)
-		tmpfilename = fileNameSlices[2]
+		fileId.FileName = fileNameSlices[2]
+
+		destFilePath := fileIdGroup.GroupPath + "/" + fileId.StoredName
+		outFile, e := os.OpenFile(destFilePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+		if e != nil {
+			err = e
+			return
+		}
+		defer outFile.Close()
+
+		// Copy the input file to the output file, encrypting as we go.
+		encryptor := &cipher.StreamWriter{S: stream, W: outFile}
+		defer encryptor.Close()
+
+		compressor, e := gzip.NewWriterLevel(encryptor, 1)
+		if err != nil {
+			err = e
+			return
+		}
+		defer compressor.Close()
+		// END: setup output file
 
 		var read int64
 		var p float32
@@ -128,12 +145,10 @@ func EncryptMultipartReader(mr *multipart.Reader, length int64, key []byte) (fil
 				panic(err)
 			}
 		}
-	}
 
-	fileId.Checksum = ComputeChecksum(fileId.Path)
-	fileId.FileName = tmpfilename
-	fileId.ContentType = tmpcontentType
-	fileId.Key = key
+		fileId.Checksum = ComputeChecksum(destFilePath)
+
+	}
 
 	return
 }
