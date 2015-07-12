@@ -13,6 +13,12 @@ Install the bower dependencies:
 
 ```bash
 $ bower install
+```
+
+Build the client app:
+
+```bash
+$ grunt
 $ popd
 ```
 
