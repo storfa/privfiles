@@ -108,6 +108,8 @@ func EncryptMultipartReader(mr *multipart.Reader, length int64, key []byte) (fil
 		dispositionHeader := part.Header.Get("Content-Disposition")
 		re := regexp.MustCompile("(filename=\")(.*)(\")")
 		fileNameSlices := re.FindStringSubmatch(dispositionHeader)
+		log.Printf("dispositionHeader: %v \n", dispositionHeader)
+		log.Printf("fileNameSlices: %v \n", fileNameSlices)
 		tmpfilename = fileNameSlices[2]
 
 		var read int64

@@ -29,3 +29,4 @@ dist
 bower_components
 server/public/
 server/uploaded/
+.idea

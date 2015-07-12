@@ -19,6 +19,7 @@ module.exports = function (grunt) {
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
     dist: '../server/public'
+//    dist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -163,7 +164,9 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       options: {
-        cwd: '<%= yeoman.app %>'
+        cwd: '<%= yeoman.app %>',
+        bowerJson: require('./bower.json'), //'<%= yeoman.app %>/bower.json',
+        directory: './bower_components/'
       },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
@@ -379,7 +382,7 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+//    'karma'
   ]);
 
   grunt.registerTask('build', [

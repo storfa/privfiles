@@ -62,7 +62,7 @@ angular.module('privfilesApp', ['angularFileUpload'])
         $scope.upload[i] = $upload.upload({
           url: 'upload',
           method: 'POST',
-          file: file
+          file: file//,
 //          data: {
 //            name: file.name,
 //            size: file.size,
