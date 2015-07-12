@@ -16,11 +16,16 @@ $ bower install
 $ popd
 ```
 
-Build run the server app:
+Build install server dependencies:
 
 ```bash
 $ pushd server
 $ go install
+```
+
+Build run the server app:
+
+```bash
 $ go run main/main.go
 ```
 
